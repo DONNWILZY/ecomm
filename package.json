@@ -1,20 +1,23 @@
 {
-  "name": "ecommresapi",
+  "name": "db",
   "version": "1.0.0",
-  "description": "E-COMMERCE REST API",
-  "main": "index.js",
+  "description": "db testing",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "test": "nodemon index.js"
+    "dev": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "EFFIONG GODSWILLL",
+  "keywords": [
+    "testing"
+  ],
+  "author": "effiong Godswill",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^3.4.4",
-    "mongodb": "^4.13.0",
-    "mongoose": "^6.8.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "install": "^0.13.0",
+    "mongoose": "^6.7.2",
     "nodemon": "^2.0.20"
   }
 }
