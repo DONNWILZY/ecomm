@@ -1,10 +1,9 @@
 const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
+const router = express.router();
 
 router.get('/', (req, res)=>{
     res.send('i am here')
 })
 
 
-module.exports = userRouter
+module.exports = router
