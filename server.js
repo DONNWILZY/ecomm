@@ -19,13 +19,14 @@ app.get('/hello', (req, res)=>{
     res.send('hello world')
 })
 
-//poduct route
+const userRouter = require('./routes/user');
 const productsRouter = require('./routes/products');
+
+//poduct route
+
 app.use('/products/cat', productsRouter);
+app.use('/api/user', userRouter)
 
-
-const userRouter = require('./routes/user')
-app.use('/api/user', userRouter )
 
 app.listen(port, ()=>console.log(`port ${port} Active`))
 
