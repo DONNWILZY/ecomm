@@ -21,10 +21,12 @@ app.get('/hello', (req, res)=>{
 
 const userRouter = require('./routes/user');
 const productsRouter = require('./routes/products');
+const authRouter = require('./routes/auth');
 
 //poduct route
 
 app.use('/products/cat', productsRouter);
+app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
 
 
