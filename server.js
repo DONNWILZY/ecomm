@@ -13,21 +13,29 @@ const db = mongoose.connection;
 db.on('error', (error)=> console.error(error));
 db.once('open', ()=>console.log('db connected'));
 
+
+
+const userRoute = require('./routes/user');
+const productsRoute = require('./routes/products');
+const authRoute = require('./routes/auth');
+
+//poduct route
+
+app.get('/', (req, res)=>{
+    res.send('i am here')
+})
+
 app.use(express.json());
 
 app.get('/hello', (req, res)=>{
     res.send('hello world')
 })
 
-const userRouter = require('./routes/user');
-const productsRouter = require('./routes/products');
-const authRouter = require('./routes/auth');
 
-//poduct route
+app.use('/api/user', userRoute)
+app.use('/products/cat', productsRoute);
+app.use('/api/auth', authRoute)
 
-app.use('/products/cat', productsRouter);
-app.use('/api/auth', authRouter)
-app.use('/api/user', userRouter)
 
 
 app.listen(port, ()=>console.log(`port ${port} Active`))
