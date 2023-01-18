@@ -37,13 +37,15 @@ router.post('/login', async (req, res)=>{
         
         
         const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.PASS_SEC);
-    
-        const password = hashedPassword.toString(CryptoJS.enc.Utf8);
-    
-        password !== req.password && res.status(401).json('wrong password');
-            
+        const mainPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+        mainPassword !== req.body.password && res.status(401).json('wrong password');
 
-            res.status(200).json(user)
+        //hiding password from database
+        const {password, ...others} = user._doc;
+         
+
+          // SUCCESS RESPONSE  
+        res.status(200).json(others);
     }catch(err){
         res.status(500).json(err);
     }
