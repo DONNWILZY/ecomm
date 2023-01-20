@@ -1,11 +1,11 @@
-//const { verify } = require('jsonwebtoken');
+const { verify } = require('jsonwebtoken');
 const{ verifyToken} = require('./verifyToken') 
 //const {verify} = require('crypto');
 const router = require('express').Router();
 
 
 //const router = express.router();
-router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
+router.put('/id', verifyToken, async (req, res)=>{
     if(req.body.password){
         req.body.password = CryptoJS.AES.encrypt(
         req.body.password, 
