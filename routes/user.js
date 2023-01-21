@@ -35,11 +35,24 @@ try{
 }
 })
 
-router.delete('/:id', verifyTokenAndAuthorization, async(req, res)=>{
+router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     try{
-
+        await User.findbyIdAndDelete(req.params.id)
+        res.status(200).json('mesage has been deleted')
     }catch{
-        
+       res.status(500).json(err) 
+    }
+})
+
+// get user
+router.get('/:id', verifyTokenAndAdmin, async (req, res)=>{
+    try{
+     const user =    await User.findbyId(req.params.id)
+     const {password, ...others} = user._doc;
+     
+   res.status(200).json({...others, accessToken});
+    }catch{
+       res.status(500).json(err) 
     }
 }  )
 
