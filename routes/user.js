@@ -35,6 +35,12 @@ try{
 }
 })
 
+router.delete('/:id', verifyTokenAndAuthorization, async(req, res)=>{
+    try{
 
+    }catch{
+        
+    }
+}  )
 
 module.exports = router;

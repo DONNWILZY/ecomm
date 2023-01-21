@@ -32,7 +32,7 @@ app.get('/hello', (req, res)=>{
 })
 
 
-app.use('/api/user', userRoute)
+app.use('/api/users', userRoute)
 app.use('/products/cat', productsRoute);
 app.use('/api/auth', authRoute)
 
