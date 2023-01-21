@@ -1,20 +1,20 @@
-const { verify } = require('jsonwebtoken');
-const{ verifyToken} = require('./verifyToken') 
-//const {verify} = require('crypto');
+const {verifyToken} = require('./verifyToken')
+
 const router = require('express').Router();
 
 
 //const router = express.router();
-router.put('/id', verifyToken, async (req, res)=>{
+//update
+router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     if(req.body.password){
         req.body.password = CryptoJS.AES.encrypt(
-        req.body.password, 
-        process.env.PASS_SEC
-        ).toString()
-}
+            req.body.password, 
+            process.env.PASS_SEC
+         ).toString()
+    }
 
 try{
-    const updatedUser = await User.findbyIdAndUpdate(req.params.id, {
+    const updatedUser = await  User.findbyIdAndUpdate(req.params.id, {
         $set: req.body
     }, {new:true}
 );
