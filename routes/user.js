@@ -12,7 +12,7 @@ const verifyTokenAndAuthorization = (req, res, next )=>{
         }
     })
 }
-//const router = express.router();
+
 //update
 router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     if(req.body.password){
@@ -23,7 +23,7 @@ router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     }
 
 try{
-    const updatedUser = await  User.findbyIdAndUpdate(req.params.id, {
+    const updatedUser = await  User.findByIdAndUpdate(req.params.id, {
         //sending information to user
         $set: req.body
     }, 
@@ -37,23 +37,12 @@ try{
 
 router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     try{
-        await User.findbyIdAndDelete(req.params.id)
+        await User.findByIdAndDelete(req.params.id)
         res.status(200).json('mesage has been deleted')
-    }catch{
+    }catch(err){
        res.status(500).json(err) 
     }
 })
 
-// get user
-router.get('/:id', verifyTokenAndAdmin, async (req, res)=>{
-    try{
-     const user =    await User.findbyId(req.params.id)
-     const {password, ...others} = user._doc;
-     
-   res.status(200).json({...others, accessToken});
-    }catch{
-       res.status(500).json(err) 
-    }
-}  )
 
 module.exports = router;
