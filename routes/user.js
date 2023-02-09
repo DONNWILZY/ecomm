@@ -2,17 +2,7 @@ const {verifyToken} = require('./verifyToken');
 
 const router = require('express').Router();
 
-///tokenization
-const verifyTokenAndAuthorization = (req, res, next )=>{
-    verifyToken(req, res, ()=>{
-        if(req.user.id === req.params.id || req.user.isAdmin){
-            next()
-        }else{
-            res.status(403).json('Not allowed')
-        }
-    })
-}
-
+ 
 //update
 router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     if(req.body.password){
@@ -35,10 +25,23 @@ try{
 }
 })
 
+
+//delete
 router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     try{
         await User.findByIdAndDelete(req.params.id)
-        res.status(200).json('mesage has been deleted')
+        res.status(200).json('user has been deleted')
+    }catch(err){
+       res.status(500).json(err) 
+    }
+})
+
+
+//get user
+router.get('/:id', verifyTokenAndAdmin, async (req, res)=>{
+    try{
+        await User.findByIdAndDelete(req.params.id)
+        res.status(200).json('user has been deleted')
     }catch(err){
        res.status(500).json(err) 
     }
