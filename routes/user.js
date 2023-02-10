@@ -1,11 +1,12 @@
-const {verifyToken} = require('./verifyToken');
-
+const {verifyToken, verifyTokenAndAuthorization} = require('./verifyToken');
+const CryptoJS = require("crypto-js");
 const router = require('express').Router();
+
 
  
 //update
-router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
-    if(req.body.password){
+router.put('/:id', verifyTokenAndAuthorization , async (req, res)=>{
+    if(req.body.password ){
         req.body.password = CryptoJS.AES.encrypt(
             req.body.password, 
             process.env.PASS_SEC
@@ -21,7 +22,7 @@ try{
 );
     res.status(200).json(updatedUser)
 }catch(err){
-    res.status(500).json(err)
+    res.status(500).json(err);
 }
 })
 
@@ -38,6 +39,7 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
 
 
 //get user
+/*
 router.get('/:id', verifyTokenAndAdmin, async (req, res)=>{
     try{
         await User.findByIdAndDelete(req.params.id)
@@ -46,6 +48,8 @@ router.get('/:id', verifyTokenAndAdmin, async (req, res)=>{
        res.status(500).json(err) 
     }
 })
+
+*/
 
 
 module.exports = router;
