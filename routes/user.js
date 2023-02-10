@@ -1,5 +1,6 @@
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require('./verifyToken');
 const CryptoJS = require("crypto-js");
+const { Router } = require('express');
 const router = require('express').Router();
 
 
@@ -56,15 +57,22 @@ router.get('/find/:id', verifyTokenAndAdmin, async (req, res)=>{
 
 // GET ALL USERS
 router.get('/', async (req, res)=>{
+    //select newer dat frm te dste base usng query - new 
+    const query = req.query.new 
     try{
-       const users = await User.find();
+       const users = query ? await User.find().sort({_id: -1}).limit(5): await User.find();
      res.status(200).json(users);
     }catch(err){
        res.status(500).json(err) 
     }
 })
 
-
+//GET USER STATS
+router.get('/stats', verifyTokenAndAdmin, async (req, res)=>{
+    const date = new Date();
+    // sort date for last year
+    const lastYear = new Date(date.getFullYear(date.getFullYear()- 1 ))
+})
 
 
 module.exports = router;
