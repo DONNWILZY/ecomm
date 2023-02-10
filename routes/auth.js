@@ -54,8 +54,6 @@ router.post('/login', async (req, res)=>{
 
         //hiding password from database
         const {password, ...others} = user._doc;
-         
-
           // SUCCESS RESPONSE  
         res.status(200).json({...others, accessToken});
     }catch(err){
