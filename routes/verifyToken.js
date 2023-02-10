@@ -1,3 +1,4 @@
+
 const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
@@ -10,8 +11,7 @@ const verifyToken = (req, res, next) => {
         res.status(403).json({ error: 'Token is not valid' });
        
       } else {
-      /// else
-      req.user = user;
+     return req.user = user;
       next();
       }
     });

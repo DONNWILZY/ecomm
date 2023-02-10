@@ -1,9 +1,30 @@
+const Product = require("../models/Product")
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require('./verifyToken');
 const CryptoJS = require("crypto-js");
 const { Router } = require('express');
 const router = require('express').Router();
 
+//create product
 
+router.post('/',  async(req, res)=>{
+    const newProduct = new Product(req.body)
+    try{
+        //try block
+        const SavedProduct = await newProduct.save();
+        res.status(200).json(SavedProduct);
+
+    }catch(err){
+        // if the creationwas not sucesful, display errro
+        res.json({
+            status: 'failed',
+            message: "unable to create new product"
+        })
+    }
+})
+
+
+
+/*
  
 //update
 router.put('/:id', verifyTokenAndAuthorization , async (req, res)=>{
@@ -98,5 +119,6 @@ router.get('/stats', verifyTokenAndAdmin, async (req, res)=>{
     }
 })
 
+*/
 
 module.exports = router;

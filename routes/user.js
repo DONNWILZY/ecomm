@@ -1,4 +1,17 @@
-const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require('./verifyToken');
+
+
+
+
+
+
+const User = require("../models/User")
+const 
+{
+    verifyToken, 
+    verifyTokenAndAuthorization, 
+    verifyTokenAndAdmin
+} = require('./verifyToken');
+
 const CryptoJS = require("crypto-js");
 const { Router } = require('express');
 const router = require('express').Router();
@@ -6,7 +19,7 @@ const router = require('express').Router();
 
  
 //update
-router.put('/:id', verifyTokenAndAuthorization , async (req, res)=>{
+router.put('/:id',  async (req, res)=>{
     if(req.body.password ){
         req.body.password = CryptoJS.AES.encrypt(
             req.body.password, 
@@ -74,7 +87,7 @@ router.get('/stats', verifyTokenAndAdmin, async (req, res)=>{
     const lastYear = new Date(date.getFullYear(date.getFullYear()- 1 ));
     try{
         // using mongo db aggregate
-        const data = await user.aggregate([
+        const data = await User.aggregate([
             {$math: {createdAt: {$gte: lastYear}}},
             {
                 $project: {
@@ -100,3 +113,5 @@ router.get('/stats', verifyTokenAndAdmin, async (req, res)=>{
 
 
 module.exports = router;
+
+

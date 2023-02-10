@@ -16,7 +16,7 @@ db.once('open', ()=>console.log('db connected'));
 
 
 const userRoute = require('./routes/user');
-const productsRoute = require('./routes/products');
+const productRoute = require('./routes/product');
 const authRoute = require('./routes/auth');
 
 //poduct route
@@ -27,13 +27,11 @@ app.get('/', (req, res)=>{
 
 app.use(express.json());
 
-app.get('/hello', (req, res)=>{
-    res.send('hello world')
-})
+
 
 
 app.use('/api/users', userRoute)
-app.use('/products/cat', productsRoute);
+app.use('/api/products/', productRoute);
 app.use('/api/auth', authRoute)
 
 

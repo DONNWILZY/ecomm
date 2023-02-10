@@ -1,3 +1,5 @@
 .env
 env.text
 node_modules
+/rough.text
+rough.text
