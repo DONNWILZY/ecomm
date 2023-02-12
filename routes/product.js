@@ -47,7 +47,7 @@ try{
 
 
 //delete
-router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
+router.delete('/:id', verifyTokenAndAdmin, async (req, res)=>{
     try{
         await User.findByIdAndDelete(req.params.id)
         res.status(200).json('product  has been deleted')

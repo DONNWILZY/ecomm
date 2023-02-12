@@ -27,30 +27,31 @@ router.post('/', verifyToken, async(req, res)=>{
 
  
 //update
-router.put('/:id', verifyTokenAndAdmin , async (req, res)=>{
+//user can change cart
+router.put('/:id', verifyTokenAndAuthorization , async (req, res)=>{
     
 
 try{
-    const updatedProduct = await  Product.findByIdAndUpdate(req.params.id, {
+    const updatedCart = await  Cart.findByIdAndUpdate(req.params.id, {
         //sending information to user
         $set: req.body
     }, 
     {new:true}
 );
-    res.status(200).json(updatedProduct)
+    res.status(200).json(updatedCart)
 }catch(err){
     res.status(500).json(err);
 }
 })
 
-/*
+
 
 
 //delete
 router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
     try{
-        await User.findByIdAndDelete(req.params.id)
-        res.status(200).json('product  has been deleted')
+        await Cart.findByIdAndDelete(req.params.id)
+        res.status(200).json('Cart item(s) has been deleted')
     }catch(err){
        res.status(500).json(err) 
     }
@@ -59,44 +60,31 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
 
 
 
-//get PRODUCTSS
-// BOTH USER AND  Admin CAN SEE PRODUCTS
-
-
-router.get('/find/:id',  async (req, res)=>{
+//get User Cart
+router.get('/find/:userId', verifyTokenAndAuthorization,  async (req, res)=>{
     try{
-       const product = await Product.findById(req.params.id)
-     res.status(200).json(product);
+       const cart = await Cart.findOne({userid: req.params.userId})
+     res.status(200).json(cart);
     }catch(err){
        res.status(500).json(err) 
     }
 });
 
 
-// GET ALL PRODUCTS
-router.get('/', async (req, res)=>{
-    //select newer dat frm te dste base usng query - new 
-    const qNew = req.query.new ;
-    const qCategory = req.query.category
+
+// GET ALL 
+router.get('/', verifyTokenAndAdmin, async (req, res)=>{
     try{
-let products;
-
-if(qNew){
-    products = await Product.find().sort({createdAt: -1}).limit(5)
-
-}else if(qCategory){
-    products = await Product.find({categories:{
-        $in: [qCategory],
-    }
-});
-}else{
-    products = await Product.find();
-}
-     res.status(200).json(products);
+        const cart = await Cart.find()
+        res.json({
+            status: "Successful",
+            message: cart
+        })
     }catch(err){
-       res.status(500).json(err) 
+        res.json({
+            status: "FAILED",
+            message: "FAILED TO FTECH USER CART"
+        })
     }
 })
-
-*/
 module.exports = router;
