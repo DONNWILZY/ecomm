@@ -92,48 +92,11 @@ if(qNew){
 }else{
     products = await Product.find();
 }
-     res.status(200).json(users);
+     res.status(200).json(products);
     }catch(err){
        res.status(500).json(err) 
     }
 })
 
-/*
-
-
-
-/*
-//GET USER STATS
-router.get('/stats', verifyTokenAndAdmin, async (req, res)=>{
-    const date = new Date();
-    // sort date for last year
-    const lastYear = new Date(date.getFullYear(date.getFullYear()- 1 ));
-    try{
-        // using mongo db aggregate
-        const data = await user.aggregate([
-            {$math: {createdAt: {$gte: lastYear}}},
-            {
-                $project: {
-                    month: {$month: "$createdAt"},
-                },
-            },
-
-            {
-                $group:{
-                    _id: "$month",
-                    total: {$sum: 1},
-                },
-            },
-        ]);
-        res.status(200).json(data);
-    }catch(err){
-        res.json({
-            status: "failed",
-            Message: "could not sort users. try again"
-        })
-    }
-})
-
-*/
 
 module.exports = router;
