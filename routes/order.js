@@ -1,13 +1,20 @@
+const Order = require("../models/Cart");
+const{
+    verifyToken, 
+    verifyTokenAndAdmin, 
+    verifyTokenAndAuthorization
+}= require('./verifyToken');
+
 const router = require('express').Router();
 //const router = express.router();
 
 
 router.post('/', verifyToken, async(req, res)=>{
-    const newCart = new Cart(req.body)
+    const newOrder = new Order(req.body)
     try{
         //try block
-        const SavedCart = await newCart.save();
-        res.status(200).json(SavedCart);
+        const SavedOrder = await newOrder.save();
+        res.status(200).json(SavedOrder);
 
     }catch(err){
         // if the creationwas not sucesful, display errro
@@ -23,18 +30,18 @@ router.post('/', verifyToken, async(req, res)=>{
 
  
 //update
-//user can change cart
-router.put('/:id', verifyTokenAndAuthorization , async (req, res)=>{
+//only admin can updte
+router.put('/:id', verifyTokenAndAdmin , async (req, res)=>{
     
 
 try{
-    const updatedCart = await  Cart.findByIdAndUpdate(req.params.id, {
+    const updatedOrder = await  Order.findByIdAndUpdate(req.params.id, {
         //sending information to user
         $set: req.body
     }, 
     {new:true}
 );
-    res.status(200).json(updatedCart)
+    res.status(200).json(updatedOrder)
 }catch(err){
     res.status(500).json(err);
 }
@@ -44,9 +51,9 @@ try{
 
 
 //delete
-router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
+router.delete('/:id', verifyTokenAndAdmin, async (req, res)=>{
     try{
-        await Cart.findByIdAndDelete(req.params.id)
+        await Order.findByIdAndDelete(req.params.id)
         res.status(200).json('Cart item(s) has been deleted')
     }catch(err){
        res.status(500).json(err) 
@@ -54,13 +61,14 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res)=>{
 })
 
 
-
+ 
 
 //get User Cart
-router.get('/find/:userId', verifyTokenAndAuthorization,  async (req, res)=>{
+router.get('/find/:userId', verifyTokenAndAdmin,  async (req, res)=>{
     try{
-       const cart = await Cart.findOne({userid: req.params.userId})
-     res.status(200).json(cart);
+        /// fins moe=
+       const orders = await Order.find({userid: req.params.userId})
+     res.status(200).json(Orders);
     }catch(err){
        res.status(500).json(err) 
     }
@@ -71,10 +79,10 @@ router.get('/find/:userId', verifyTokenAndAuthorization,  async (req, res)=>{
 // GET ALL 
 router.get('/', verifyTokenAndAdmin, async (req, res)=>{
     try{
-        const cart = await Cart.find()
+        const orders = await Order.find()
         res.json({
             status: "Successful",
-            message: cart
+            message: orders
         })
     }catch(err){
         res.json({
@@ -83,6 +91,26 @@ router.get('/', verifyTokenAndAdmin, async (req, res)=>{
         })
     }
 })
+
+
+/// monthly income
+
+router.get('/income', verifyTokenAndAdmin, async (req, res)=>{
+
+    const date = new Date();
+    const lastMonth =  new Date(date.setMonth(Date.getMonth()-1));
+    const previousMonth = new Date (new Date().date.setMonth(lastMonth.getMonth()-1));
+
+    try{
+
+    }catch(err){
+        res.json({
+            status: "failed",
+            message: "failed to feftch income"
+        })
+    }
+})
+
 
 
 
