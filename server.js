@@ -18,6 +18,9 @@ db.once('open', ()=>console.log('db connected'));
 const userRoute = require('./routes/user');
 const productRoute = require('./routes/product');
 const authRoute = require('./routes/auth');
+const cartRoute = require('./routes/cart');
+const orderRoute = require('./routes/order');
+
 
 //poduct route
 
@@ -29,10 +32,11 @@ app.use(express.json());
 
 
 
-
-app.use('/api/users', userRoute)
+app.use('/api/auth', authRoute);
+app.use('/api/users', userRoute);
 app.use('/api/products/', productRoute);
-app.use('/api/auth', authRoute)
+app.use('/api/carts', cartRoute);
+app.use('/api/orders', orderRoute);
 
 
 
