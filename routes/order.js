@@ -111,6 +111,7 @@ router.get('/income', verifyTokenAndAdmin, async (req, res)=>{
                     sales: "$amount",
                 },
                 {
+                    
                     $group: {
                         _id: "$month",
                         total: {$sum: "$sales"}
